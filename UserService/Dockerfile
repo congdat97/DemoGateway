@@ -1,13 +1,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 5001
+EXPOSE 5000
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+# Copy artifact từ pipeline publish
 COPY . .
-RUN dotnet publish -c Release -o /out
 
-FROM base AS final
-WORKDIR /app
-COPY --from=build /out .
 ENTRYPOINT ["dotnet", "UserService.dll"]
